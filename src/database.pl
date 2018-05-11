@@ -1,9 +1,32 @@
+:-dynamic pessoa/2.
+:-dynamic gosta/2.
+:-dynamic detesta/2.
+:-dynamic subgenero/2.
+:-dynamic relacao/2.
+:-dynamic ehAmigo/2.
+:-dynamic nacionalidade/2.
+:-dynamic serie/4.
+:-dynamic amizade/2.
+
+deleta(X):- deletaAux(X), fail.
+deleta(X).
+
+deletaAux(X):- retract(X).
+deletaAux(X).
+
+cria(X):- deleta(X), assert(X).
+cria(X).
+
 pessoa(alax, 12).
 pessoa(arthur, 16).
 pessoa(richard, 14).
 pessoa(lucas, 19).
 pessoa(andre, 15).
 pessoa(thalisson, 18).
+
+ehAmigo(alax, arthur).
+ehAmigo(thalisson, andre).
+ehAmigo(richard, lucas).
 
 gosta(alax, suspense).
 gosta(alax, comedia).
@@ -13,6 +36,7 @@ gosta(thalisson, animacao).
 gosta(thalisson, misterio).
 gosta(arthur, comedia).
 gosta(arthur, suspense).
+gosta(arthur, terror).
 gosta(arthur, ficcao).
 gosta(arthur, animacao).
 gosta(richard, drama).
@@ -24,22 +48,25 @@ gosta(lucas, crime).
 gosta(lucas, aventura).
 gosta(lucas, epico).
 
-detesta(alax, drama).
-detesta(alax, animacao).
-detesta(alax, ficcao).
-detesta(thalisson, policial).
-detesta(andre, suspense).
-detesta(andre, epico).
-detesta(andre, terror).
-detesta(arthur, policial).
-detesta(arthur, anime).
-detesta(richard, aventura).
-detesta(richard, anime).
-detesta(lucas, suspense).
-
-ehAmigo(alax, arthur).
-ehAmigo(thalisson, andre).
-ehAmigo(richard, lucas).
+assistiu(alax, breakingBad).
+assistiu(alax, betterCallSaul).
+assistiu(alax, atlanta).
+assistiu(alax, theSinner).
+assistiu(alax, bigMouth).
+assistiu(alax, batesMotel).
+assistiu(arthur, batesMotel).
+assistiu(arthur, vikings).
+assistiu(arthur, oMecanismo).
+assistiu(arthur, narcos).
+assistiu(andre, swordArtOnline).
+assistiu(andre, greysAnatomy).
+assistiu(richard, theEndOfTheFuckingWorld).
+assistiu(richard, rickAndMorty).
+assistiu(richard, raioNegro).
+assistiu(thalisson, yuGiOh).
+assistiu(lucas, vikings).
+assistiu(lucas, cacadorDeMentes).
+assistiu(lucas, laCasaDePapel).
 
 nacionalidade(alax, eua).
 nacionalidade(arthur, brasil).
@@ -209,4 +236,10 @@ filtrarPorClassificacao(Classificacao, Serie):- serie(Serie, _, Classificacao, _
 % TODO: Remover `(\+ serie(Serie, Genero, _, _)` e utilizar função sort() ou union()...
 % recomenda(Pessoa, Serie):- podeAssistir(Pessoa, Serie), ((serie(Serie, Genero, _, _); (\+ serie(Serie, Genero, _, _), subgenero(Serie, Genero))), gosta(Pessoa, Genero)).
 
-recomenda(Pessoa, Serie):- podeAssistir(Pessoa, Serie), (serie(Serie, Genero, _, _), gosta(Pessoa, Genero)).
+amizade(X, Y):- ehAmigo(X, Y); ehAmigo(Y, X).
+
+recomendaPorGenero(Pessoa, Serie):- podeAssistir(Pessoa, Serie), (serie(Serie, Genero, _, _), gosta(Pessoa, Genero)).
+recomendaPorAmigos(Pessoa, Serie):- podeAssistir(Pessoa, Serie), gosta(Pessoa, Genero), serie(Serie, Genero, _, _), assistiu(Amigo, Serie), amizade(Pessoa, Amigo).
+
+recomendaUmaSeriePorGenero(Pessoa, Serie):- recomendaPorGenero(Pessoa, Serie), !.
+recomendaUmaSeriePorAmigos(Pessoa, Serie):- recomendaPorAmigos(Pessoa, Serie), !.
