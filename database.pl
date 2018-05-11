@@ -10,6 +10,7 @@ gosta(alax, comedia).
 gosta(alax, crime).
 gosta(andre, animacao).
 gosta(thalisson, animacao).
+gosta(thalisson, misterio).
 gosta(arthur, comedia).
 gosta(arthur, suspense).
 gosta(arthur, ficcao).
@@ -21,12 +22,15 @@ gosta(richard, suspense).
 gosta(lucas, drama).
 gosta(lucas, crime).
 gosta(lucas, aventura).
+gosta(lucas, epico).
 
 detesta(alax, drama).
 detesta(alax, animacao).
 detesta(alax, ficcao).
 detesta(thalisson, policial).
 detesta(andre, suspense).
+detesta(andre, epico).
+detesta(andre, terror).
 detesta(arthur, policial).
 detesta(arthur, anime).
 detesta(richard, aventura).
@@ -46,6 +50,14 @@ nacionalidade(andre, japao).
 
 % nome genero classificaoIndicativa paisDeOrigem 
 
+serie(lost, ficcao, 16, eua).
+serie(vikings, drama, 14, canada).
+serie(atlanta, drama, 18, eua).
+serie(spartacus, drama, 18, eua).
+serie(greysAnatomy, drama, 14, eua).
+serie(batesMotel, terror, 16, eua).
+serie(hannibal, terror, 18, eua).
+serie(theWalkingDead, suspense, 16, eua).
 serie(brooklyn99, comedia, 14, eua).
 serie(alteredCarbon, ficcao, 18, eua).
 serie(umMalucoNoPedaco, comedia, 10, eua).
@@ -73,6 +85,15 @@ serie(onePunchMan, animacao, 12, japao).
 serie(swordArtOnline, animacao, 12, japao).
 serie(yuGiOh, animacao, 0, japao).
 
+subgenero(lost, misterio).
+subgenero(theWalkingDead, terror).
+subgenero(atlanta, comedia).
+subgenero(vikings, aventura).
+subgenero(spartacus, aventura).
+subgenero(vikings, epico).
+subgenero(spartacus, epico).
+subgenero(batesMotel, drama).
+subgenero(hannibal, misterio).
 subgenero(cacadorDeMentes, policial).
 subgenero(onePunchMan, anime).
 subgenero(swordArtOnline, anime).
@@ -103,6 +124,20 @@ subgenero(brooklyn99, policial).
 subgenero(laCasaDePapel, policial).
 subgenero(oMecanismo, policial).
 
+relacao(theWalkingDead, lost).
+relacao(lost, theWalkingDead).
+relacao(lost, breakingBad).
+relacao(theWalkingDead, breakingBad).
+relacao(atlanta, brooklyn99).
+relacao(vikings, breakingBad).
+relacao(vikings, spartacus).
+relacao(spartacus, vikings).
+relacao(greysAnatomy, friends).
+relacao(hannibal, cacadorDeMentes).
+relacao(hannibal, batesMotel).
+relacao(batesMotel, dark).
+relacao(batesMotel, cacadorDeMentes).
+relacao(batesMotel, theSinner).
 relacao(cacadorDeMentes, theSinner).
 relacao(cacadorDeMentes, dark).
 relacao(cacadorDeMentes, blackMirror).
@@ -171,4 +206,7 @@ filtrarPorGenero(Genero, Serie):- serie(Serie, Genero, _, _); subgenero(Serie, G
 filtrarPorPais(Pais, Serie):- serie(Serie, _, _, Pais).
 filtrarPorClassificacao(Classificacao, Serie):- serie(Serie, _, Classificacao, _).
 
-recomenda(Pessoa, Serie):- podeAssistir(Pessoa, Serie), ((serie(Serie, Genero, _, _); (\+ serie(Serie, Genero, _, _), subgenero(Serie, Genero))), gosta(Pessoa, Genero)).
+% TODO: Remover `(\+ serie(Serie, Genero, _, _)` e utilizar função sort() ou union()...
+% recomenda(Pessoa, Serie):- podeAssistir(Pessoa, Serie), ((serie(Serie, Genero, _, _); (\+ serie(Serie, Genero, _, _), subgenero(Serie, Genero))), gosta(Pessoa, Genero)).
+
+recomenda(Pessoa, Serie):- podeAssistir(Pessoa, Serie), (serie(Serie, Genero, _, _), gosta(Pessoa, Genero)).
