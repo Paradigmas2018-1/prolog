@@ -1,0 +1,13 @@
+version: '3.5'
+services:
+  app:
+    container_name: netflix-recomenda
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    networks: 
+      - prolog
+
+networks: 
+  prolog:
+    name: netflix-recomenda
