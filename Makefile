@@ -2,8 +2,8 @@ build:
 	@echo "*********************\n"
 	@echo "Building application!\n"
 	@echo "*********************\n"
-	@docker-compose up --build
-	@echo "WE'RE ALL SET UP\n"
+	@docker-compose up --build -d
+	@echo "\n\nWE'RE ALL SET UP\n"
 
 run:
 	@echo "**********************\n"

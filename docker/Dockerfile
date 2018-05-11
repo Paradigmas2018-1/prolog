@@ -1,7 +1,7 @@
 FROM swipl:7.7.13
 
-WORKDIR /netflix-recomenda
-
 COPY ./ /netflix-recomenda
+
+WORKDIR /netflix-recomenda/src
 
 CMD ["bash", "-c", "sleep infinity;"]
