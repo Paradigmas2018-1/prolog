@@ -60,25 +60,37 @@ opcaoLogin(_):-
 opcaoPlay(1):- 
         write('Listando todas as series no catalogo'), nl,
         serie(Serie,_,_,_), write(Serie), nl,
-        play.
+        fail.
     
+opcaoPlay(1):-
+        nl,play.
+
 opcaoPlay(2):- 
         write('Escolha um genero:'), nl,
         read(Genero),
         filtrarPorGenero(Genero, Serie), write(Serie), nl,
-        play.
+        fail.
+
+opcaoPlay(2):-
+        nl,play.
 
 opcaoPlay(3):- 
         write('Escolha um pais:'), nl,
         read(Pais),
         filtrarPorPais(Pais, Serie), write(Serie), nl,        
-        play.
+        fail.
+
+opcaoPlay(3):-
+        nl,play.
 
 opcaoPlay(4):- 
         write('Escolha uma classificação indicativa:'), nl,
         read(Classificacao),
         filtrarPorClassificacao(Classificacao, Serie), write(Serie), nl,        
-        play.
+        fail.
+
+opcaoPlay(4):-
+        nl,play.
 
 opcaoPlay(5):- 
         write('Digite o nome desejado'), nl,
@@ -89,12 +101,18 @@ opcaoPlay(5):-
 opcaoPlay(6):-
         write('Series recomendadas para o seu usuario (por Genero)'), nl,
         recomendaPorGenero(X, Serie), usuario(X), write(Serie), nl,
-        play.
+        fail.
+
+opcaoPlay(6):-
+        nl,play.
 
 opcaoPlay(7):-
         write('Series recomendadas para o seu usuario (por Amigos)'), nl,
         recomendaPorAmigos(X, Serie), usuario(X), write(Serie), nl,
-        play.
+        fail.
+
+opcaoPlay(7):-
+        nl,play.
 
 opcaoPlay(8):-
         write('Serie recomendada para o seu usuario (por Genero)'), nl,
@@ -103,12 +121,12 @@ opcaoPlay(8):-
 
 opcaoPlay(9):-
         write('Serie recomendada para o seu usuario (por Amigos)'), nl,
-        recomendaUmaSeriePorAmigos(X, Serie), usuario(X), write(Serie), nl,        
+         usuario(X),recomendaUmaSeriePorAmigos(X,Serie), write(Serie), nl,
         play.
 
 opcaoPlay(10):-
         write('Saindo do sistema'), nl,
-        deleta(X), usuario(X),
+        usuario(X),deleta(X),
         autenticacao.
 
 opcaoPlay(11):-
